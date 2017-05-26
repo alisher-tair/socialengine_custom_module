@@ -1,0 +1,83 @@
+h2 {
+    margin-top: 0px !important;
+    font-size: 1.8em !important;
+    margin-bottom: 5px !important;
+}
+
+.block-article {
+    background-color: #FCFCFC;
+    padding: 5px;
+    padding-bottom: 20px;
+}
+
+.title-article > a,
+.title-article-t {
+    font-size: 20px;
+    color: #555555 !important;
+}
+
+.title-article > a:hover {
+    color: #323232 !important;
+}
+
+.title-article > a:visited,
+.title-article > a:active,
+.title-article > a:hover,
+.title-article > a:focus {
+    text-decoration: none;
+}
+
+.info-article {
+    color: #cccccc;
+}
+
+.info-article-time {
+    color: #A6A6A6;
+}
+
+.btn-article-delete {
+    background-color: #FCFCFC;
+    color: #F68E86 !important;
+    padding: 10px;
+    border: 1px solid #F68E86;
+    padding-right: -10px;
+}
+
+.btn-article-delete:hover {
+    text-decoration: none;
+    border: 1px solid #FCFCFC;
+    background-color: #F68E86;
+    color: #FCFCFC !important;
+    transition: .2s;
+}
+
+.btn-article-read {
+    background-color: #FCFCFC;
+    color: #89D0F6 !important;
+    padding: 14px;
+    border: 1px solid #89D0F6;
+    font-weight: bold;
+}
+
+.btn-article-read:hover {
+    text-decoration: none;
+    border: 1px solid #FCFCFC;
+    background-color: #89D0F6;
+    color: #FCFCFC !important;
+    transition: .2s;
+}
+
+.btn-article-delete:active,
+.btn-article-delete:visited,
+.btn-article-delete:focus,
+.btn-article-read:active,
+.btn-article-read:visited,
+.btn-article-read:focus
+{
+    text-decoration: none;
+}
+
+.content {
+    font-size: 1.1em;
+    line-height: 1.3em;
+}
