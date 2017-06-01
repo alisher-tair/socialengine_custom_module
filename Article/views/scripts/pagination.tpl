@@ -40,33 +40,17 @@ unset($params['page']);
                             'reset' => false,
                             'page' => ( $this->pageAsQuery ? null : $this->previous ),
                             'QUERY' => $query . ( $this->pageAsQuery ? '&page=' . $this->previous : '' ),
-                        )), $this->translate('&#171; Previous'), array('onclick' => "Hebadge.requestHTML('".$this->ajax_url."', null, $$('.".$this->ajax_class."')[0], {'page': ".$this->previous."});$(this).getParent('.hebadge_pagination').getElement('.hebadge_pagination_loader').addClass('active');return false;")) ?>
+                        )), $this->translate('Previous'), array('onclick' => "Hebadge.requestHTML('".$this->ajax_url."', null, $$('.".$this->ajax_class."')[0], {'page': ".$this->previous."});$(this).getParent('.hebadge_pagination').getElement('.hebadge_pagination_loader').addClass('active');return false;")) ?>
                     </li>
                 <?php endif; ?>
-                <?php if (empty($this->mini)):?>
-                    <?php foreach ($this->pagesInRange as $page): ?>
-                        <?php if ($page != $this->current): ?>
-                            <li>
-                                <?php echo $this->htmlLink(array_merge($params, array(
-                                    'reset' => false,
-                                    'page' => ( $this->pageAsQuery ? null : $page ),
-                                    'QUERY' => $query . ( $this->pageAsQuery ? '&page=' . $page : '' ),
-                                )), $page, array('onclick' => "Hebadge.requestHTML('".$this->ajax_url."', null, $$('.".$this->ajax_class."')[0], {'page': ".$page."});$(this).getParent('.hebadge_pagination').getElement('.hebadge_pagination_loader').addClass('active');return false;")) ?>
-                            </li>
-                        <?php else: ?>
-                            <li class="selected">
-                                <a href='javascript:void(0)'><?php echo $page; ?></a>
-                            </li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                <?php endif;?>
+
                 <?php if (isset($this->next)): ?>
                     <li>
                         <?php echo $this->htmlLink(array_merge($params, array(
                             'reset' => false,
                             'page' => ( $this->pageAsQuery ? null : $this->next ),
                             'QUERY' => $query . ( $this->pageAsQuery ? '&page=' . $this->next : '' ),
-                        )), $this->translate('Next &#187;'), array('onclick' => "Hebadge.requestHTML('".$this->ajax_url."', null, $$('.".$this->ajax_class."')[0], {'page': ".$this->next."});$(this).getParent('.hebadge_pagination').getElement('.hebadge_pagination_loader').addClass('active');return false;")) ?>
+                        )), $this->translate('Next'), array('onclick' => "Hebadge.requestHTML('".$this->ajax_url."', null, $$('.".$this->ajax_class."')[0], {'page': ".$this->next."});$(this).getParent('.hebadge_pagination').getElement('.hebadge_pagination_loader').addClass('active');return false;")) ?>
                     </li>
                 <?php endif; ?>
             </ul>

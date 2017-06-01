@@ -1,16 +1,10 @@
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
 <div class="row">
-    <div class="col-md-3">
+    <div class="article-image">
         <?php echo $this->itemPhoto($this->article, 'thumb.normal'); ?>
     </div>
-    <div class="col-md-6 offset-3">
+    <div class="article-title">
         <div class="title-article-t">
-            <?php echo $this->article->article_title; ?>
+            <?php echo $this->article->title; ?>
         </div>
     </div>
 </div>
@@ -20,10 +14,17 @@
     <?php echo $this->htmlLink($this->article->getOwner()->getHref(), $this->article->getOwner()->getTitle()); ?>
     <?php echo $this->translate('about'); ?>
     <span class="info-article-time"><?php echo $this->timestamp(strtotime($this->article->creation_date)); ?></span>
+    <?php echo $this->htmlLink('articles/send/'.$this->article->getOwner()->getIdentity(), '| Send message to owner', array('format' => 'smoothbox', 'class' => 'buttonlink smoothbox')); ?>
 </div>
 <div class="content">
-    <p><?php echo $this->article->article_description; ?></p>
+    <p><?php echo $this->article->description; ?></p>
 </div>
+
+<?php if ($this->closePopup): ?>
+    <script>
+        parent.Smoothbox.close();
+    </script>
+<?php endif; ?>
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

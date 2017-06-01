@@ -13,12 +13,12 @@
             <div class="row block-article">
                 <div class="col-md-3">
                     <div>
-                        <?php echo $this->htmlLink('article/'.$item->article_id, $this->itemPhoto($item, 'thumb.normal'), array('class' => 'link-article')); ?>
+                        <?php echo $this->htmlLink('articles/'.$item->article_id, $this->itemPhoto($item, 'thumb.normal'), array('class' => 'link-article')); ?>
                     </div>
                 </div>
                 <div class="col-md-9">
                     <div>
-                        <div class="title-article"><?php echo $this->htmlLink('article/'.$item->article_id, $item->article_title); ?></div>
+                        <div class="title-article"><?php echo $this->htmlLink('articles/'.$item->article_id, $item->title); ?></div>
                     </div>
                     <div class="info-article">
                         <?php echo $this->translate('Posted by'); ?>
@@ -27,12 +27,14 @@
                         <span class="info-article-time"><?php echo $this->timestamp(strtotime($item->creation_date)) ?></span>
                     </div>
                     <div class="content">
-                        <?php echo $this->string()->truncate($this->string()->stripTags($item->article_description), 300); ?>
+                        <?php echo $this->string()->truncate($this->string()->stripTags($item->description), 300); ?>
                     </div>
-                    <div class="pull-right">
-                        <?php echo $this->htmlLink('article/'.$item->article_id, $this->translate('Read Article'), array('class' => 'btn-article-read')); ?>
-                        <?php echo $this->viewer()->getIdentity() == $item->user_id ? $this->htmlLink('article/delete/'.$item->article_id, $this->translate('Delete Article'), array('format' => 'smoothbox', 'class' => 'buttonlink smoothbox btn-article-delete')) : ''; ?>
+                    <div class="btn-block pull-right">
+                        <?php echo $this->htmlLink('articles/'.$item->article_id, $this->translate('Read Article'), array('class' => 'btn-article-read')); ?>
+                        <?php echo $this->viewer()->getIdentity() == $item->user_id ? $this->htmllink('articles/edit/'.$item->article_id, $this->translate('Edit Article'), array('class' => 'btn-article-edit')) : ''; ?>
+                        <?php echo $this->viewer()->getIdentity() == $item->user_id ? $this->htmlLink('articles/delete/'.$item->article_id, $this->translate('Delete Article'), array('format' => 'smoothbox', 'class' => 'buttonlink smoothbox btn-article-delete')) : ''; ?>
                     </div>
+                    <div class="clearall"></div>
                 </div>
             </div>
 

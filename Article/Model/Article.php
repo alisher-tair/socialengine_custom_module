@@ -2,8 +2,24 @@
 
 class Article_Model_Article extends Core_Model_Item_Abstract
 {
-    protected $_parent_type = 'article';
-    protected $_owner_type = 'user';
+
+    public function getHref($params = array())
+    {
+        $slug = $this->getSlug();
+
+        $params = array_merge(array(
+            'route' => 'article_show',
+            'reset' => true,
+            'user_id' => $this->user_id,
+            'article_id' => $this->article_id,
+            'slug' => $slug,
+        ), $params);
+        $route = $params['route'];
+        $reset = $params['reset'];
+        unset($params['route']);
+        unset($params['reset']);
+        return Zend_Controller_Front::getInstance()->getRouter()->assemble($params, $route, $reset);
+    }
 
     public function getPhotoUrl($type = null)
     {
@@ -91,5 +107,36 @@ class Article_Model_Article extends Core_Model_Item_Abstract
         $this->save();
 
         return $this;
+    }
+
+    /**
+     * Gets a proxy object for the comment handler
+     *
+     * @return Engine_ProxyObject
+     **/
+    public function comments()
+    {
+        return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('comments', 'core'));
+    }
+
+
+    /**
+     * Gets a proxy object for the like handler
+     *
+     * @return Engine_ProxyObject
+     **/
+    public function likes()
+    {
+        return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('likes', 'core'));
+    }
+
+    /**
+     * Gets a proxy object for the tags handler
+     *
+     * @return Engine_ProxyObject
+     **/
+    public function tags()
+    {
+        return new Engine_ProxyObject($this, Engine_Api::_()->getDbtable('tags', 'core'));
     }
 }

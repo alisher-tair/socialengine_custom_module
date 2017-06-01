@@ -5,39 +5,58 @@
     }
 </script>
 
-<ul class="generic_list_widget">
-    <?php foreach ($this->paginator as $item): ?>
-        <li>
-            <div class="photo">
-                <?php echo $this->htmlLink($item->getHref(), $this->itemPhoto($item->getowner(), 'thumb.icon'), array('class' => 'thumb')); ?>
-            </div>
-            <div class="info">
-                <div class="title">
-                    <?php echo $this->htmlLink('article/'.$item->article_id, $item->article_title); ?>
-                </div>
-                <div class="stats">
-                    <?php echo $this->translate(array('%s view', '%s views', $item->views), $this->locale()->toNumber($item->views)); ?>
-                </div>
-                <div class="owner">
-                    <?php
-                        $owner = $item->getOwner();
-                        echo $this->translate('Posted by %1$s', $this->htmlLink($owner->getHref(), $owner->getTitle()));
-                    ?>
-                </div>
-            </div>
-            <div class="description">
-                <?php echo $this->string()->truncate($this->string()->stripTags($item->article_description), 300); ?>
-            </div>
-        </li>
-    <?php endforeach; ?>
-</ul>
+<?php foreach ($this->paginator as $item): ?>
+    <div class="article-widget">
+        <div class="photo">
+            <?php echo $this->htmlLink($item->getHref(), $this->itemPhoto($item, 'thumb.normal'), array('class' => 'article-widget-image')); ?>
+        </div>
+        <div class="article-widget-title">
+            <?php echo $this->htmlLink('articles/'.$item->getIdentity(), $item->getTitle()); ?>
+        </div>
+        <div class="clearall"></div>
+        <div class="article-widget-info">
 
-<?php if ($this->paginator->count() > 1): ?>
-    <?php echo $this->paginationControl($this->paginator, null, array("pagination.tpl","article"), array(
-        'ajax_url' => $this->url(array_merge(array('module' => 'core', 'controller' => 'widget', 'action' => 'index', 'content_id' => $this->identity, 'container' => 1),$this->params), 'default', true),
-        'ajax_class' => 'layout_' . $this->simple_name,
-        'params' => $this->params,
-        'mini' => ($this->paginator_type == 'mini')
-    ))?>
-    <br />
-<?php endif?>
+            <div class="article-widget-owner">
+                <?php
+                $owner = $item->getOwner();
+                echo $this->translate('Posted by %1$s', $this->htmlLink($owner->getHref(), $owner->getTitle()));
+                ?>
+            </div>
+            <div class="article-widget-content">
+                <?php echo $this->string()->truncate($this->string()->stripTags($item->description), 200); ?>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+
+<div id="results"></div>
+<button id="next">Load more</button>
+<div id="after"></div>
+
+
+<script type="text/javascript">
+    var myBtn = $('next');
+    var block = $('results');
+    var page = 1;
+    myBtn.addEvent('click', function() {
+        page += 1;
+        var myUrl = 'article/index/data/type/popular/count/3/page/'+ page +'?format=html',
+            myElement = $('results');
+        var myRequest = new Request.HTML({
+            url: myUrl,
+            method: 'get',
+            onRequest: function () {
+                myBtn.set('text', 'Loading...');
+            },
+            onSuccess: function (trtr,trrt,responseText) {
+                myBtn.set('text', 'Click');
+                var temp  = new Element('div',{'html':responseText});
+                temp.inject(myElement,'bottom');
+            },
+            onFailure: function () {
+                myBtn.set('text', 'Failed');
+            }
+        });
+        myRequest.send();
+    });
+</script>

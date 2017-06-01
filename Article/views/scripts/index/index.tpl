@@ -11,15 +11,16 @@
     <ul class="articles_browse">
         <?php foreach ($this->paginator as $item): ?>
             <div class="row block-article">
-                <div class="col-md-3">
+                <div class="image-article">
                     <div>
-                        <?php echo $this->htmlLink('article/'.$item->article_id, $this->itemPhoto($item, 'thumb.normal'), array('class' => 'link-article')); ?>
+                        <?php echo $this->htmlLink($item->getHref(), $this->itemPhoto($item, 'thumb.normal'), array('class' => 'link-article')); ?>
                     </div>
                 </div>
+                <div>
+                    <div class="title-article"><?php echo $this->htmlLink($item->getHref(), $item->title); ?></div>
+                </div>
+                <div class="clearall"></div>
                 <div class="col-md-9">
-                    <div>
-                        <div class="title-article"><?php echo $this->htmlLink('article/'.$item->article_id, $item->article_title); ?></div>
-                    </div>
                     <div class="info-article">
                         <?php echo $this->translate('Posted by'); ?>
                         <?php echo $this->htmlLink($item->getOwner()->getHref(), $item->getOwner()->getTitle()) ?>
@@ -27,12 +28,12 @@
                         <span class="info-article-time"><?php echo $this->timestamp(strtotime($item->creation_date)) ?></span>
                     </div>
                     <div class="content">
-                        <?php echo $this->string()->truncate($this->string()->stripTags($item->article_description), 300); ?>
+                        <?php echo $this->string()->truncate($this->string()->stripTags($item->description), 300); ?>
                     </div>
                     <div class="pull-right">
-                        <?php echo $this->htmlLink('article/'.$item->article_id, $this->translate('Read Article'), array('class' => 'btn-article-read')); ?>
-                        <?php echo $this->viewer()->getIdentity() == $item->user_id ? $this->htmlLink('article/delete/'.$item->article_id, $this->translate('Delete Article'), array('format' => 'smoothbox', 'class' => 'buttonlink smoothbox btn-article-delete')) : ''; ?>
+                        <?php echo $this->htmlLink('articles/'.$item->article_id, $this->translate('Read Article'), array('class' => 'btn-article-read')); ?>
                     </div>
+                    <div class="clearall"></div>
                 </div>
             </div>
 
@@ -42,7 +43,6 @@
 <?php else: ?>
     <p>There is no data.</p>
 <?php endif ?>
-
 <?php echo $this->paginationControl($this->paginator, null, null, array(
     'pageAsQuery' => true,
     'query' => $this->formValues,
@@ -66,13 +66,3 @@
         case 'create-article': $$('.custom_270').getParent().addClass('active'); break;
     }
 </script>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

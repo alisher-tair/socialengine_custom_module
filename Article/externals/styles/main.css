@@ -10,10 +10,15 @@ h2 {
     padding-bottom: 20px;
 }
 
+.image-article {
+    float: left;
+}
+
 .title-article > a,
 .title-article-t {
     font-size: 20px;
     color: #555555 !important;
+    margin-left: 20px;
 }
 
 .title-article > a:hover {
@@ -33,6 +38,10 @@ h2 {
 
 .info-article-time {
     color: #A6A6A6;
+}
+
+.clearall {
+    clear: both;
 }
 
 .btn-article-delete {
@@ -57,6 +66,8 @@ h2 {
     padding: 14px;
     border: 1px solid #89D0F6;
     font-weight: bold;
+    clear: both;
+    margin-bottom: 30px;
 }
 
 .btn-article-read:hover {
@@ -67,12 +78,47 @@ h2 {
     transition: .2s;
 }
 
+.btn-article-edit {
+    background-color: #FCFCFC;
+    color: #7FCD7C !important;
+    padding: 14px;
+    border: 1px solid #7FCD7C;
+    font-weight: bold;
+}
+.btn-article-edit:hover {
+    text-decoration: none;
+    border: 1px solid #FCFCFC;
+    background-color: #7FCD7C;
+    color: #FCFCFC !important;
+    transition: .2s;
+}
+
+.btn-cancel {
+    margin-top: 40px !important;
+    padding: 10px 15px;
+    font-weight: bold;
+    color: #FFF !important;
+    background-color: #F68E86;
+    border-radius: 3px;
+}
+
+.btn-cancel:hover {
+    background-color: #F6A6A0;
+    text-decoration: none;
+}
+
 .btn-article-delete:active,
 .btn-article-delete:visited,
 .btn-article-delete:focus,
 .btn-article-read:active,
 .btn-article-read:visited,
-.btn-article-read:focus
+.btn-article-read:focus,
+.btn-article-edit:active,
+.btn-article-edit:visited,
+.btn-article-edit:focus,
+.btn-cancel:active,
+.btn-cancel:visited,
+.btn-cancel:focus
 {
     text-decoration: none;
 }
@@ -81,3 +127,34 @@ h2 {
     font-size: 1.1em;
     line-height: 1.3em;
 }
+
+
+
+/**** form ****/
+form#articles_create label {
+    display: block;
+    font-weight: bold;
+    float: left;
+}
+form#articles_create button {
+    margin-top: 10px;
+}
+
+
+
+.article-widget {
+    border-bottom: 1px solid #F7F3FA;
+    margin-bottom: 5px;
+}
+
+.article-widget-image {
+    margin-right: 5px;
+}
+
+.article-widget-title > a {
+    font-weight: bold;
+    font-size: 1em;
+    color: #36353A !important;
+}
+
+.article-widget-content {}

@@ -7,7 +7,7 @@
                 </div>
                 <div class="info">
                     <div class="title">
-                        <a href="/socialengine/article/<?php echo $article->article_id; ?>"><?php echo $article->article_title; ?></a>
+                        <a href="/socialengine/articles/<?php echo $article->article_id; ?>"><?php echo $article->title; ?></a>
                     </div>
                     <div class="stats">
                         <?php echo $this->timestamp($article->creation_date) ?>
@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div class="description">
-                    <?php echo $this->string()->truncate($this->string()->stripTags($article->article_description), 300) ?>
+                    <?php echo $this->string()->truncate($this->string()->stripTags($article->description), 300) ?>
                 </div>
             </li>
         <?php endforeach; ?>

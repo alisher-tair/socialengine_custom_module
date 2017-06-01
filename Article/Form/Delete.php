@@ -19,7 +19,7 @@ class Article_Form_Delete extends Engine_Form
         $this->addElement('Cancel', 'cancel', array(
             'label' => 'cancel',
             'link' => true,
-            'prependText' => 'or',
+            'prependText' => 'or ',
             'href' => '',
             'onclick' => 'parent.Smoothbox.close();',
             'decorators' => array(

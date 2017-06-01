@@ -29,33 +29,9 @@
     </div>
 <?php endforeach; ?>
 
-<div id="results"></div>
-<button id="next">Load more</button>
-
-
-<script type="text/javascript">
-    var myBtn = $('next');
-    var block = $('results');
-    var page = 1;
-    myBtn.addEvent('click', function() {
-        page += 1;
-        var myUrl = 'article/index/data/profile_id/<?php echo $this->profile_id ?>/count/2/page/'+ page +'?format=html',
-            myElement = $('results');
-        var myRequest = new Request.HTML({
-            url: myUrl,
-            method: 'get',
-            onRequest: function () {
-                myBtn.set('text', 'Loading...');
-            },
-            onSuccess: function (trtr,trrt,responseText) {
-                myBtn.set('text', 'Click');
-                var temp  = new Element('div',{'html':responseText});
-                temp.inject(myElement,'bottom');
-            },
-            onFailure: function () {
-                myElement.set('text', 'Failed');
-            }
-        });
-        myRequest.send();
-    });
-</script>
+<?php if ($this->status): ?>
+    <script type="text/javascript">
+        var myBtn = $('next');
+        myBtn.parentNode.removeChild(myBtn);
+    </script>
+<?php endif; ?>

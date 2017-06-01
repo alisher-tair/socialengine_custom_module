@@ -29,9 +29,12 @@
       0 => 'application/languages/en/article.csv',
     ),
   ),
+    'items' => array(
+        'article'
+    ),
   'routes' => array(
       'article_specific' => array(
-          'route' => 'article/:action/:article_id/*',
+          'route' => 'articles/:action/:article_id/*',
           'defaults' => array(
               'module' => 'article',
               'controller' => 'index',
@@ -43,25 +46,38 @@
           ),
       ),
       'article_general' => array(
-          'route' => 'article/:action/*',
+          'route' => 'articles/:action/*',
           'defaults' => array(
               'module' => 'article',
               'controller' => 'index',
               'action' => 'index'
           ),
           'reqs' => array(
-              'action' => '(index|create|viewmy)'
+              'action' => '(index|create|manage)'
           ),
       ),
       'specific_article' => array(
-          'route' => 'article/:id/*',
+          'route' => 'articles/:article_id/*',
           'defaults' => array(
               'module' => 'article',
               'controller' => 'index',
               'action' => 'show'
           ),
           'reqs' => array(
-              'id' => '\d+'
+              'article_id' => '\d+'
+          ),
+      ),
+      'article_show' => array(
+          'route' => 'articles/:user_id/:article_id/:slug',
+          'defaults' => array(
+              'module' => 'article',
+              'controller' => 'index',
+              'action' => 'show',
+              'slug' => '',
+          ),
+          'reqs' => array(
+              'user_id' => '\d+',
+              'article_id' => '\d+'
           ),
       ),
       'browse_articles' => array(
@@ -89,7 +105,7 @@
           ),
       ),
       'delete_article' => array(
-          'route' => 'article/delete/:article_id',
+          'route' => 'articles/delete/:article_id',
           'defaults' => array(
               'module' => 'article',
               'controller' => 'index',
@@ -99,5 +115,17 @@
               'article_id' => '\d+'
           ),
       ),
+      'send_message' => array(
+          'route' => 'articles/send/:user_id',
+          'defaults' => array(
+              'module' => 'article',
+              'controller' => 'index',
+              'action' => 'send'
+          ),
+          'reqs' => array(
+              'user_id' => '\d+'
+          ),
+      ),
+
   ),
 ); ?>
