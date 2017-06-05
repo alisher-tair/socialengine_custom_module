@@ -4,7 +4,11 @@
         $('filter_form').submit();
     }
 </script>
-
+<div class="headline">
+    <h2>
+        <?php echo $this->translate('Popular Articles');?>
+    </h2>
+</div>
 <?php foreach ($this->paginator as $item): ?>
     <div class="article-widget">
         <div class="photo">
@@ -32,6 +36,13 @@
 <div id="results"></div>
 <button id="next">Load more</button>
 <div id="after"></div>
+
+<?php if ($this->status): ?>
+    <script type="text/javascript">
+        var myBtn = $('next');
+        myBtn.parentNode.removeChild(myBtn);
+    </script>
+<?php endif; ?>
 
 
 <script type="text/javascript">

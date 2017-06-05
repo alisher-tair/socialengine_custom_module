@@ -1,3 +1,9 @@
+<div class="headline">
+    <h2>
+        <?php echo $this->translate('Recent Articles');?>
+    </h2>
+</div>
+
 <?php if (count($this->articles) > 0): ?>
     <ul class="generic_list_widget">
         <?php foreach ($this->articles as $article): ?>

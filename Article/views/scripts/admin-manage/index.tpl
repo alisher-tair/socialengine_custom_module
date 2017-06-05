@@ -52,12 +52,12 @@
                 <tr>
                     <td><input type="checkbox" class="checkbox" name="delete_<?php echo $item->getIdentity(); ?>" value="<?php echo $item->getIdentity(); ?>"></td>
                     <td><?php echo $item->getIdentity(); ?></td>
-                    <td><?php echo $item->article_title; ?></td>
+                    <td><?php echo $item->getTitle() ?></td>
                     <td><?php echo $item->getOwner(); ?></td>
                     <td><?php echo $this->locale()->toNumber($item->views); ?></td>
                     <td><?php echo $this->locale()->toDateTime($item->creation_date); ?></td>
                     <td>
-                        <?php echo $this->htmlLink('article/'.$item->article_id, $this->translate('view')); ?>
+                        <?php echo $this->htmlLink('articles/'.$item->getIdentity(), $this->translate('view')); ?>
 
                         <?php echo $this->htmlLink(
                             array('route' => 'default', 'module' => 'article', 'controller' => 'admin-manage', 'action' => 'delete', 'id' => $item->article_id),

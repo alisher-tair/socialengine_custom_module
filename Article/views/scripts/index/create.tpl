@@ -4,13 +4,14 @@
 
 <script>
     var url = window.location.href;
+    url = url.split('?')[0];
     url = url.split('/');
     var lastSegment = url.pop() || url.pop();
 
 
     switch (lastSegment) {
-        case 'browse-articles': $$('.custom_272').getParent().addClass('active'); break;
-        case 'my-articles': $$('.custom_271').getParent().addClass('active'); break;
-        case 'create-article': $$('.custom_270').getParent().addClass('active'); break;
+        case 'browse-articles': document.getElementById('browse-articles').addClass('active'); break;
+        case 'my-articles': document.getElementById('my-articles').addClass('active'); break;
+        case 'create-article': document.getElementById('create-article').addClass('active'); break;
     }
 </script>

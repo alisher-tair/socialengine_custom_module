@@ -4,7 +4,6 @@
         $('filter_form').submit();
     }
 </script>
-
 <?php foreach ($this->paginator as $item): ?>
     <div class="article-widget">
         <div class="photo">
@@ -32,6 +31,12 @@
 <div id="results"></div>
 <button id="next">Load more</button>
 
+<?php if ($this->status): ?>
+    <script type="text/javascript">
+        var myBtn = $('next');
+        myBtn.parentNode.removeChild(myBtn);
+    </script>
+<?php endif; ?>
 
 <script type="text/javascript">
     var myBtn = $('next');

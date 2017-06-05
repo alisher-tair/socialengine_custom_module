@@ -51,10 +51,6 @@
     //'params' => $this->formValues,
 )); ?>
 
-<script type="text/javascript">
-    $$('.custom_268').getParent().addClass('active');
-</script>
-
 <script>
     var url = window.location.href;
     url = url.split('?')[0];
@@ -63,18 +59,8 @@
 
 
     switch (lastSegment) {
-        case 'browse-articles': $$('.custom_272').getParent().addClass('active'); break;
-        case 'my-articles': $$('.custom_271').getParent().addClass('active'); break;
-        case 'create-article': $$('.custom_270').getParent().addClass('active'); break;
+        case 'browse-articles': document.getElementById('browse-articles').addClass('active'); break;
+        case 'my-articles': document.getElementById('my-articles').addClass('active'); break;
+        case 'create-article': document.getElementById('create-article').addClass('active'); break;
     }
 </script>
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

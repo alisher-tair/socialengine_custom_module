@@ -421,7 +421,6 @@ class Article_IndexController extends Core_Controller_Action_Standard
     if ($currentPage >= $allPages) {
       $this->view->status = true;
     }
-    $this->view->data = 'there some info';
     $paginator->setItemCountPerPage($this->_getParam('count', 6));
     $paginator->setCurrentPageNumber($this->_getParam('page', 2));
 

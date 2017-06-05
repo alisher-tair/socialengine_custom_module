@@ -6,11 +6,14 @@
     'version' => '4.0.0',
     'path' => 'application/modules/Article',
     'title' => 'Article',
-    'description' => '',
+    'description' => 'Articles',
     'author' => '',
-    'callback' => 
-    array (
-      'class' => 'Engine_Package_Installer_Module',
+    'dependencies' => array(
+        array(
+            'type' => 'module',
+            'name' => 'core',
+            'minVersion' => '4.2.0',
+        ),
     ),
     'actions' => 
     array (
@@ -20,6 +23,11 @@
       3 => 'enable',
       4 => 'disable',
     ),
+    'callback' =>
+        array (
+            'path' => 'application/modules/Article/settings/install.php',
+            'class' => 'Article_Installer',
+        ),
     'directories' => 
     array (
       0 => 'application/modules/Article',

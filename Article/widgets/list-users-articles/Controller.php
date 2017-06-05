@@ -18,7 +18,13 @@ class Article_Widget_ListUsersArticlesController extends Engine_Content_Widget_A
         $this->view->profile_id = $profile->getIdentity();
         $this->view->paginator = $paginator = Zend_Paginator::factory($select);
 
-        $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 2));
+        $allPages = (int) ceil($paginator->getTotalItemCount() / 6);
+        $currentPage = $this->_getParam('page');
+        if ($currentPage >= $allPages) {
+            $this->view->status = true;
+        }
+
+        $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 6));
         $paginator->setCurrentPageNumber($this->_getParam('page', 1));
 
         if ($paginator->getTotalItemCount() <= 0) {

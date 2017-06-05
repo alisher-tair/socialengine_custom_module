@@ -1,1 +1,1 @@
-INSERT IGNORE INTO `engine4_core_modules` (`name`, `title`, `description`, `version`, `enabled`, `type`) VALUES  ('article', 'Article', '', '4.0.0', 1, 'extra') ;
+INSERT IGNORE INTO `engine4_core_modules` (`name`, `title`, `description`, `version`, `enabled`, `type`) VALUES  ('article', 'Article', 'Articles Module', '4.0.0', 1, 'extra') ;
