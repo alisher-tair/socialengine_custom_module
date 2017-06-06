@@ -30,7 +30,7 @@ class Guest_IndexController extends Core_Controller_Action_Standard
   {
     $guest_id = $this->_getParam('guest_id');
 
-    if (!guest_id) return;
+    if (!$guest_id) return;
 
     $table = Engine_Api::_()->getDbtable('guests', 'guest');
     $db = $table->getAdapter();
@@ -92,11 +92,12 @@ class Guest_IndexController extends Core_Controller_Action_Standard
       $select = $table->select()
           ->where('guest_id = ?', $guest_id)
           ->limit(1);
-      $row = $table->fetcchRow($select);
-      if ($row->blocked == true) {
-        $row->blocked = false;
-      } else {
+      $row = $table->fetchRow($select);
+
+      if ($row->blocked == false) {
         $row->blocked = true;
+      } else {
+        $row->blocked = false;
       }
       $row->save();
 

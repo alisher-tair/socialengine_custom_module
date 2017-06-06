@@ -87,11 +87,9 @@ Guest.removeRequest = function (btn) {
 Guest.blockRequest = function (btn) {
     btn.addEvent('click', function () {
         var that = this;
-        var guest_id = that.getParent().getParent().getParent().id;
-        console.log(guest_id);
-        var reqUrl = 'guest/index/block/guest_id/' + guest_id.substring(6) + '?format=html';
+        var guest_id = this.getParent().getParent().getParent().id;
         var myRequest = new Request.HTML({
-            url: reqUrl,
+            url: 'guest/index/block/guest_id/' + guest_id.substring(6) + '?format=html',
             method: 'get',
             onRequest: function () {
                 that.set('text', 'Loading...');

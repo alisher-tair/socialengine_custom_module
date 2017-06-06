@@ -49,12 +49,6 @@ $this->headScript()->appendFile($this->baseUrl() .'/application/modules/Guest/ex
     Guest.removeRequest(removeBtn);
 
     var blockBtn = $$('a.block');
-
-    blockBtn.addEvent('click', function () {
-        var that = this;
-        var btnParent = that.getParent().getParent().getParent().id;
-        console.log(btnParent);
-    });
-
+    Guest.blockRequest(blockBtn);
 </script>
 
