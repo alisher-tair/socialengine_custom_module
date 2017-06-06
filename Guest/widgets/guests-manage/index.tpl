@@ -1,6 +1,5 @@
 <?php
-    $this->headScript()->prependFile($this->baseUrl() .'/application/modules/Guest/externals/scripts/core.js');
-    echo $this->headScript()->toString()."\n"
+$this->headScript()->appendFile($this->baseUrl() .'/application/modules/Guest/externals/scripts/core.js');
 ?>
 <ul class="generic_list_widget">
     <?php foreach($this->paginator as $item): ?>
@@ -15,9 +14,13 @@
                 <div class="stats">
                     <?php echo $this->timestamp($item->visit_date) ?>
                 </div>
-                <a href="javascript:void(0)" id="hide" class="<?php if (is_hidden) ?>"><?php echo $item->is_hidden ? 'Unhide in history' : 'Hide in history' ?></a> |
-                <a href="javascript:void(0)" id="remove">Remove from history</a> |
-                <a href="javascript:void(0)" id="block">Block user</a>
+                <span class="<?php echo $item->is_hidden ? 'bool_1' : 'bool_0' ?>">
+                    <a href="javascript:void(0)" class="hide"><?php echo $item->is_hidden ? $this->translate('Show guest') : $this->translate('Hide guest') ?></a>
+                </span> |
+                <a href="javascript:void(0)" class="remove"><?php echo $this->translate('Remove guest') ?></a> |
+                <span class="<?php echo $item->blocked ? 'bool_1' : 'bool_0' ?>">
+                    <a href="javascript:void(0)" class="block"><?php echo $item->blocked ? $this->translate('Unblock guest') : $this->translate('Block guest') ?></a>
+                </span>
             </div>
         </li>
     <?php endforeach; ?>
@@ -34,62 +37,24 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    var myBtn = $('next');
-    var block = $('results');
-    var page = 1;
-    var user_id = <?php echo $this->viewer()->getIdentity() ?>;
-    myBtn.addEvent('click', function() {
-        page += 1;
-        var myUrl = 'guest/index/more/user_id/' + user_id + '/page/'+ page +'?format=html',
-            myElement = $('results');
-        var myRequest = new Request.HTML({
-            url: myUrl,
-            method: 'get',
-            onRequest: function () {
-                myBtn.set('text', 'Loading...');
-            },
-            onSuccess: function (trtr,trrt,responseText) {
-                myBtn.set('text', 'Load more');
-                var temp  = new Element('span',{'html':responseText});
-                temp.inject(myElement,'bottom');
-            },
-            onFailure: function () {
-                myBtn.set('text', 'Failed');
-            }
-        });
-        myRequest.send();
+    var loadBtn = $$('a#next');
+    var element = $$('a#results');
+    var user_id = '<?php echo $this->viewer()->getIdentity() ?>';
+    Guest.loadMore(loadBtn, element, user_id);
+
+    var hideBtn = $$('a.hide');
+    Guest.hideRequest(hideBtn);
+
+    var removeBtn = $$('a.remove');
+    Guest.removeRequest(removeBtn);
+
+    var blockBtn = $$('a.block');
+
+    blockBtn.addEvent('click', function () {
+        var that = this;
+        var btnParent = that.getParent().getParent().getParent().id;
+        console.log(btnParent);
     });
+
 </script>
 
-<script type="text/javascript">
-    var hideBtn = $('hide');
-    hideBtn.addEvent('click', function () {
-        var guest_id = hideBtn.getParent().getParent().id;
-        var reqUrl = 'guest/index/hide/guest_id/' + guest_id.substring(6) + '?format=html';
-        var element = $$("li."+guest_id);
-        console.log(element);
-        var myRequest = new Request.HTML({
-            url: reqUrl,
-            method: 'get',
-            onRequest: function () {
-                hideBtn.set('text', 'Loading...');
-            },
-            onSuccess: function () {
-                if (hideBtn.get('text') == 'Hide in history') {
-                    hideBtn.set('text', 'Unhide in history');
-                    element.addClass('hidden');
-                } else if (hideBtn.get('text') == 'Unhide in history') {
-                    hideBtn.set('text', 'Hide in history');
-                    element.removeClass('hidden');
-                } else {
-                    hideBtn.set('text', 'Failed');
-                }
-
-            },
-            onFailure: function() {
-                hideBtn.set('text', 'Failed');
-            }
-        });
-        myRequest.send();
-    });
-</script>

@@ -43,11 +43,62 @@ class Guest_IndexController extends Core_Controller_Action_Standard
       $row = $table->fetchRow($select);
       if ($row->is_hidden == false) {
         $row->is_hidden = true;
-        $row->save();
       } else {
         $row->is_hidden = false;
-        $row->save();
       }
+      $row->save();
+
+      $db->commit();
+    } catch (Exception $e) {
+      $db->rollBack();
+      throw $e;
+    }
+  }
+
+  public function removeAction()
+  {
+    $guest_id = $this->_getParam('guest_id');
+
+    if (!$guest_id) return;
+
+    $table = Engine_Api::_()->getDbtable('guests', 'guest');
+    $db = $table->getAdapter();
+    $db->beginTransaction();
+
+     try {
+       $select = $table->select()
+           ->where('guest_id = ?', $guest_id)
+           ->limit(1);
+       $row = $table->fetchRow($select);
+       $row->delete();
+       $db->commit();
+     } catch (Exception $e) {
+       $db->rollBack();
+       throw $e;
+     }
+  }
+
+  public function blockAction()
+  {
+    $guest_id = $this->_getParam('guest_id');
+
+    if (!$guest_id) return;
+
+    $table = Engine_Api::_()->getDbtable('guests', 'guest');
+    $db = $table->getAdapter();
+    $db->beginTransaction();
+
+    try {
+      $select = $table->select()
+          ->where('guest_id = ?', $guest_id)
+          ->limit(1);
+      $row = $table->fetcchRow($select);
+      if ($row->blocked == true) {
+        $row->blocked = false;
+      } else {
+        $row->blocked = true;
+      }
+      $row->save();
 
       $db->commit();
     } catch (Exception $e) {

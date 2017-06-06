@@ -59,6 +59,12 @@ class Guest_Widget_ProfileGuestsController extends Engine_Content_Widget_Abstrac
                 ->limit(5);
             $guests = $table->fetchAll($select);
 
+            if (count($guests) <= 0) {
+                return $this->setNoRender();
+            }
+            if (!Engine_Api::_()->core()->hasSubject()) {
+                $this->view->owner = true;
+            }
             $this->view->guests = $guests;
         } catch (Exception $e) {
             throw $e;

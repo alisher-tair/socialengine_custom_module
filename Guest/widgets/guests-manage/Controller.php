@@ -15,13 +15,13 @@ class Guest_Widget_GuestsManageController extends Engine_Content_Widget_Abstract
 
             $this->view->paginator = $paginator = Zend_Paginator::factory($select);
 
-            $pagesAmount = (int) ceil($paginator->getTotalItemCount() / 1);
+            $pagesAmount = (int) ceil($paginator->getTotalItemCount() / 10);
             $currentPage = $this->_getParam('page', 1);
             if ($currentPage >= $pagesAmount) {
                 $this->view->status = true;
             }
 
-            $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 1));
+            $paginator->setItemCountPerPage($this->_getParam('itemCountPerPage', 10));
             $paginator->setCurrentPageNumber($this->_getParam('page', 1));
 
             if ($paginator->getTotalItemCount() <= 0) {
