@@ -24,10 +24,15 @@ class Guest_Widget_ProfileGuestsController extends Engine_Content_Widget_Abstrac
                 $row = $table->fetchRow($select);
 
                 if ($row) {
-                    // if row with viewed user AND guest user eixsts
-                    // update visit date column
-                    $row->visit_date = date('Y-m-d H:i:s');
-                    $row->save();
+                    if (!$row->blocked) {
+                        // if row with viewed user AND guest user eixsts
+                        // update visit date column
+                        $row->visit_date = date('Y-m-d H:i:s');
+                        $row->save();
+                    } else {
+                        header('Location: http://'.$_SERVER['HTTP_HOST'].'/socialengine/guest/index/abort');
+                        exit();
+                    }
                 } else {
                     if ($guest->getIdentity() != $viewed_user->getIdentity() && $guest->getIdentity() !== 0) {
                         // else create new row

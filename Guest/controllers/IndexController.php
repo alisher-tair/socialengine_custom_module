@@ -107,4 +107,9 @@ class Guest_IndexController extends Core_Controller_Action_Standard
       throw $e;
     }
   }
+
+  public function abortAction()
+  {
+
+  }
 }

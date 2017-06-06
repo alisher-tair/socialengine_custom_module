@@ -29,4 +29,17 @@
       0 => 'application/languages/en/guest.csv',
     ),
   ),
+    'items' => array(
+        'guest'
+    ),
+    'route' => array(
+        'abort' => array(
+            'route' => 'abort',
+            'defaults' => array(
+                'module' => 'guest',
+                'controller' => 'index',
+                'action' => 'abort'
+            ),
+        ),
+    ),
 ); ?>
