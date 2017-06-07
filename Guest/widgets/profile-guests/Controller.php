@@ -4,62 +4,23 @@ class Guest_Widget_ProfileGuestsController extends Engine_Content_Widget_Abstrac
 {
     public function indexAction()
     {
-        $table = Engine_Api::_()->getDbtable('guests', 'guest');
-        $db = $table->getAdapter();
-        $db->beginTransaction();
-
-        if (Engine_Api::_()->core()->hasSubject()) {
-            // collect data
-
-            // get viewed user and guest user
-            $viewed_user = Engine_Api::_()->core()->getSubject('user');
-            $guest = Engine_Api::_()->user()->getViewer();
-
-            // process
-            try {
-                $select = $table->select()
-                    ->where('viewed_user_id = ?', $viewed_user->getIdentity())
-                    ->where('visitor_id = ?', $guest->getIdentity())
-                    ->limit(1);
-                $row = $table->fetchRow($select);
-
-                if ($row) {
-                    if (!$row->blocked) {
-                        // if row with viewed user AND guest user eixsts
-                        // update visit date column
-                        $row->visit_date = date('Y-m-d H:i:s');
-                        $row->save();
-                    } else {
-                        header('Location: http://'.$_SERVER['HTTP_HOST'].'/socialengine/guest/index/abort');
-                        exit();
-                    }
-                } else {
-                    if ($guest->getIdentity() != $viewed_user->getIdentity() && $guest->getIdentity() !== 0) {
-                        // else create new row
-                        $new_row = $table->createRow();
-                        $new_row->setFromArray(array(
-                            'visitor_id' => $guest->getIdentity(),
-                            'viewed_user_id' => $viewed_user->getIdentity(),
-                            'visit_date' => date('Y-m-d H:i:s'),
-                            'blocked' => false,
-                        ));
-                        $new_row->save();
-                    }
-                }
-
-                $db->commit();
-            } catch (Exception $e) {
-                $db->rollBack();
-                throw $e;
-            }
+        if (!Engine_Api::_()->core()->hasSubject()) {
+            return $this->setNoRender();
         }
 
-        try {
-            // end collect data
+        $user = Engine_Api::_()->core()->getSubject('user');
+        $viewer = Engine_Api::_()->user()->getViewer();
 
+        $table = Engine_Api::_()->getDbtable('guests', 'guest');
+
+        try {
             // view guest's widget
+            if ($user->getIdentity() === $viewer->getIdentity()) {
+                $this->view->owner = true;
+            }
+
             $select = $table->select()
-                ->where('viewed_user_id = ?', $viewed_user ? $viewed_user->getIdentity() : Engine_Api::_()->user()->getViewer()->getIdentity())
+                ->where('viewed_user_id = ?', $user->getIdentity())
                 ->order('visit_date DESC')
                 ->limit(5);
             $guests = $table->fetchAll($select);
@@ -67,9 +28,7 @@ class Guest_Widget_ProfileGuestsController extends Engine_Content_Widget_Abstrac
             if (count($guests) <= 0) {
                 return $this->setNoRender();
             }
-            if (!Engine_Api::_()->core()->hasSubject()) {
-                $this->view->owner = true;
-            }
+
             $this->view->guests = $guests;
         } catch (Exception $e) {
             throw $e;

@@ -4,13 +4,22 @@ class Guest_Widget_GuestsManageController extends Engine_Content_Widget_Abstract
 {
     public function indexAction()
     {
+        if (!Engine_Api::_()->core()->hasSubject()) {
+            return $this->setNoRender();
+        }
+
+        $user = Engine_Api::_()->core()->getSubject('user');
         $viewer = Engine_Api::_()->user()->getViewer();
+
+        if ($user->getIdentity() !== $viewer->getIdentity()) {
+            return $this->setNoRender();
+        }
 
         $table = Engine_Api::_()->getDbtable('guests', 'guest');
 
         try {
             $select = $table->select()
-                ->where('viewed_user_id = ?', $viewer->getIdentity())
+                ->where('viewed_user_id = ?', $user->getIdentity())
                 ->order('visit_date DESC');
 
             $this->view->paginator = $paginator = Zend_Paginator::factory($select);

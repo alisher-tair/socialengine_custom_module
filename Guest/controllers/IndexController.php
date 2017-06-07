@@ -33,26 +33,34 @@ class Guest_IndexController extends Core_Controller_Action_Standard
     if (!$guest_id) return;
 
     $table = Engine_Api::_()->getDbtable('guests', 'guest');
-    $db = $table->getAdapter();
-    $db->beginTransaction();
 
     try {
       $select = $table->select()
           ->where('guest_id = ?', $guest_id)
           ->limit(1);
       $row = $table->fetchRow($select);
-      if ($row->is_hidden == false) {
-        $row->is_hidden = true;
-      } else {
-        $row->is_hidden = false;
-      }
-      $row->save();
 
-      $db->commit();
+      if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
+        try {
+          $db = $table->getAdapter();
+          $db->beginTransaction();
+
+          if ($row->is_hidden == false) {
+            $row->is_hidden = true;
+          } else {
+            $row->is_hidden = false;
+          }
+          $row->save();
+
+          $db->commit();
+        } catch (Exception $e) {
+          $db->rollBack();
+        }
+      }
     } catch (Exception $e) {
-      $db->rollBack();
       throw $e;
     }
+    die;
   }
 
   public function removeAction()
@@ -61,21 +69,30 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
     if (!$guest_id) return;
 
-    $table = Engine_Api::_()->getDbtable('guests', 'guest');
-    $db = $table->getAdapter();
-    $db->beginTransaction();
-
      try {
+       $table = Engine_Api::_()->getDbtable('guests', 'guest');
+
        $select = $table->select()
            ->where('guest_id = ?', $guest_id)
            ->limit(1);
        $row = $table->fetchRow($select);
-       $row->delete();
-       $db->commit();
+
+       if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
+         try {
+           $db = $table->getAdapter();
+           $db->beginTransaction();
+
+           $row->delete();
+
+           $db->commit();
+         } catch (Exception $e) {
+           $db->rollBack();
+         }
+       }
      } catch (Exception $e) {
-       $db->rollBack();
        throw $e;
      }
+    die;
   }
 
   public function blockAction()
@@ -84,32 +101,56 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
     if (!$guest_id) return;
 
-    $table = Engine_Api::_()->getDbtable('guests', 'guest');
-    $db = $table->getAdapter();
-    $db->beginTransaction();
-
     try {
+      $table = Engine_Api::_()->getDbtable('guests', 'guest');
       $select = $table->select()
           ->where('guest_id = ?', $guest_id)
           ->limit(1);
       $row = $table->fetchRow($select);
 
-      if ($row->blocked == false) {
-        $row->blocked = true;
-      } else {
-        $row->blocked = false;
-      }
-      $row->save();
+      if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
+        $table = Engine_Api::_()->getDbtable('blockedusers', 'guest');
+        try {
+          $db = $table->getAdapter();
+          $db->beginTransaction();
 
-      $db->commit();
+          if ($row->isBlocked()) {
+            $deleteSelect = $table->select()
+                ->where('user_id = ?', $row->viewed_user_id)
+                ->where('blocked_user_id = ?', $row->visitor_id)
+                ->limit(1);
+            $rowToDelete = $table->fetchRow($deleteSelect);
+            $rowToDelete->delete();
+          } else {
+            $newRow = $table->createRow();
+            $newRow->setFromArray(array(
+                'user_id' => $row->viewed_user_id,
+                'blocked_user_id' => $row->visitor_id,
+            ));
+            $newRow->save();
+          }
+          $db->commit();
+        } catch (Exception $e) {
+          $db->rollBack();
+        }
+      }
     } catch (Exception $e) {
-      $db->rollBack();
       throw $e;
     }
   }
 
-  public function abortAction()
+  public function testAction()
   {
+    $table = Engine_Api::_()->getDbtable('blockedusers', 'guest');
+    $db = $table->getAdapter();
+    $db->beginTransaction();
 
+    $newRow = $table->createRow();
+    $newRow->setFromArray(array(
+      'user_id' => 1,
+      'blocked_user_id' => 10,
+    ));
+    $newRow->save();
+    $db->commit();
   }
 }
