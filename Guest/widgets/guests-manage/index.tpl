@@ -4,7 +4,7 @@ $this->headScript()->appendFile($this->baseUrl() .'/application/modules/Guest/ex
 
 <div class="headline">
     <h3><?php echo $this->translate('Guests Manage') ?></h3>
-    <p><?php echo $this->translate('Here you can hide guest in history, remove from, or ') </p>
+    <p><?php echo $this->translate('Here you can hide guests in history, delete from it, or block users from viewing your page') ?></p>
 </div>
 <ul class="generic_list_widget target_ul" id="target_ul">
     <?php foreach($this->paginator as $item): ?>
@@ -35,7 +35,7 @@ $this->headScript()->appendFile($this->baseUrl() .'/application/modules/Guest/ex
 <?php if ($this->status): ?>
     <script type="text/javascript">
         var myBtn = document.getElementById('nextGuests');
-        if (typeof myBtn !== 'undefined') {
+        if (typeof myBtn !== 'undefined' && myBtn !== null) {
             Guest.removeBtn(myBtn);
         }
     </script>

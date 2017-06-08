@@ -9,23 +9,23 @@ Guest.init = function (id) {
     var element = document.getElementById('target_ul');
     var user_id = id;
 
-    if (typeof loadBtn !== 'undefined' &&
-        typeof element !== 'undefined' &&
-        typeof user_id !== 'undefined'
+    if ((loadBtn !== null && typeof loadBtn !== 'undefined') &&
+        (element !== null && typeof element !== 'undefined') &&
+        (user_id !== null && typeof user_id !== 'undefined')
     ) {
-        Guest.loadMore(loadBtn, element, user_id);
+        this.loadMore(loadBtn, element, user_id);
     }
 
-    if (typeof Guest.link_hide !== 'undefined') {
-        Guest.link_hide.addEvent('click', Guest.hideRequest);
+    if (typeof this.link_hide !== 'undefined') {
+        this.link_hide.addEvent('click', this.hideRequest);
     }
 
-    if (typeof Guest.link_remove !== 'undefined') {
-        Guest.link_remove.addEvent('click', Guest.removeRequest);
+    if (typeof this.link_remove !== 'undefined') {
+        this.link_remove.addEvent('click', this.removeRequest);
     }
 
-    if (typeof Guest.link_block !== 'undefined') {
-        Guest.link_block.addEvent('click', Guest.blockRequest);
+    if (typeof this.link_block !== 'undefined') {
+        this.link_block.addEvent('click', this.blockRequest);
     }
 }
 
@@ -37,17 +37,21 @@ Guest.removeBtn = function (btn) {
 
 Guest.loadMore = function (btn, element, user_id) {
     var page = 1;
+    var self = this;
     btn.addEvent('click', function () {
-        if (typeof Guest.link_hide !== 'undefined') {
-            Guest.link_hide.removeEvent('click', Guest.hideRequest);
+        if (typeof self.link_hide !== 'undefined') {
+            self.link_hide.removeEvent('click', self.hideRequest);
+            console.log('done');
         }
 
-        if (typeof Guest.link_remove !== 'undefined') {
-            Guest.link_remove.removeEvent('click', Guest.removeRequest);
+        if (typeof self.link_remove !== 'undefined') {
+            self.link_remove.removeEvent('click', self.removeRequest);
+            console.log('done');
         }
 
-        if (typeof Guest.link_block !== 'undefined') {
-            Guest.link_block.removeEvent('click', Guest.blockRequest);
+        if (typeof self.link_block !== 'undefined') {
+            self.link_block.removeEvent('click', self.blockRequest);
+            console.log('done');
         }
 
         page += 1;
@@ -66,17 +70,21 @@ Guest.loadMore = function (btn, element, user_id) {
                     lis.inject(element, 'bottom');
                 }
 
-                Guest.link_hide = $$('a.hide');
-                Guest.link_remove = $$('a.remove');
-                Guest.link_block = $$('a.block');
-                if (typeof Guest.link_hide !== 'undefined') {
-                    Guest.link_hide.addEvent('click', Guest.hideRequest);
+                self.link_hide = $$('a.hide');
+                self.link_remove = $$('a.remove');
+                self.link_block = $$('a.block');
+
+                if (typeof self.link_hide !== 'undefined') {
+                    self.link_hide.addEvent('click', self.hideRequest);
+                    console.log('done');
                 }
-                if (typeof Guest.link_remove !== 'undefined') {
-                    Guest.link_remove.addEvent('click', Guest.removeRequest);
+                if (typeof self.link_remove !== 'undefined') {
+                    self.link_remove.addEvent('click', self.removeRequest);
+                    console.log('done');
                 }
-                if (typeof Guest.link_block !== 'undefined') {
-                    Guest.link_block.addEvent('click', Guest.blockRequest);
+                if (typeof self.link_block !== 'undefined') {
+                    self.link_block.addEvent('click', self.blockRequest);
+                    console.log('done');
                 }
             },
             onFailure: function () {

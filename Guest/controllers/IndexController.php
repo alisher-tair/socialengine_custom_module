@@ -41,10 +41,11 @@ class Guest_IndexController extends Core_Controller_Action_Standard
       $row = $table->fetchRow($select);
 
       if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
-        try {
-          $db = $table->getAdapter();
-          $db->beginTransaction();
 
+        $db = $table->getAdapter();
+        $db->beginTransaction();
+
+        try {
           if ($row->is_hidden == false) {
             $row->is_hidden = true;
           } else {
@@ -78,10 +79,11 @@ class Guest_IndexController extends Core_Controller_Action_Standard
        $row = $table->fetchRow($select);
 
        if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
-         try {
-           $db = $table->getAdapter();
-           $db->beginTransaction();
 
+         $db = $table->getAdapter();
+         $db->beginTransaction();
+
+         try {
            $row->delete();
 
            $db->commit();
@@ -110,10 +112,11 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
       if ($row->viewed_user_id == Engine_Api::_()->user()->getViewer()->getIdentity()) {
         $table = Engine_Api::_()->getDbtable('blockedusers', 'guest');
-        try {
-          $db = $table->getAdapter();
-          $db->beginTransaction();
 
+        $db = $table->getAdapter();
+        $db->beginTransaction();
+
+        try {
           if ($row->isBlocked()) {
             $deleteSelect = $table->select()
                 ->where('user_id = ?', $row->viewed_user_id)
@@ -137,6 +140,7 @@ class Guest_IndexController extends Core_Controller_Action_Standard
     } catch (Exception $e) {
       throw $e;
     }
+    die;
   }
 
   public function testAction()

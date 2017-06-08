@@ -6,12 +6,20 @@
     'version' => '4.0.0',
     'path' => 'application/modules/Guest',
     'title' => 'Guest',
-    'description' => 'information about guests',
-    'author' => 'Newbie',
-    'callback' => 
-    array (
-      'class' => 'Engine_Package_Installer_Module',
+    'description' => 'Guest',
+    'author' => '',
+    'dependencies' => array(
+        array(
+            'type' => 'module',
+            'name' => 'core',
+            'minVersion' => '4.2.0',
+        ),
     ),
+    'callback' => 
+        array (
+            'path' => 'application/modules/Guest/settings/install.php',
+            'class' => 'Guest_Installer',
+        ),
     'actions' => 
     array (
       0 => 'install',

@@ -24,6 +24,8 @@
 <?php if ($this->status): ?>
     <script type="text/javascript">
         var myBtn = $('nextGuests');
-        myBtn.parentNode.removeChild(myBtn);
+        if (myBtn !== null && typeof myBtn !== 'undefined') {
+            myBtn.parentNode.removeChild(myBtn);
+        }
     </script>
 <?php endif; ?>
