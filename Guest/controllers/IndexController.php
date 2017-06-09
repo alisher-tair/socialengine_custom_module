@@ -28,6 +28,10 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
   public function hideAction()
   {
+    $viewer = Engine_Api::_()->user()->getViewer();
+    // Stop if the user does not have rights to manage guest list
+    if (!Engine_Api::_()->getApi('core', 'guest')->isAllowed($viewer, 'guests_manage_enabled')) return;
+
     $guest_id = $this->_getParam('guest_id');
 
     if (!$guest_id) return;
@@ -66,6 +70,10 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
   public function removeAction()
   {
+    $viewer = Engine_Api::_()->user()->getViewer();
+    // Stop if the user does not have rights to manage guest list
+    if (!Engine_Api::_()->getApi('core', 'guest')->isAllowed($viewer, 'guests_manage_enabled')) return;
+
     $guest_id = $this->_getParam('guest_id');
 
     if (!$guest_id) return;
@@ -99,6 +107,13 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
   public function blockAction()
   {
+    // Stop if the blocking is disabled
+    if (!Engine_Api::_()->getApi('core', 'guest')->isOn('blocking')) return;
+
+    $viewer = Engine_Api::_()->user()->getViewer();
+    // Stop if the user does not have rights to manage guest list
+    if (!Engine_Api::_()->getApi('core', 'guest')->isAllowed($viewer, 'guests_manage_enabled')) return;
+
     $guest_id = $this->_getParam('guest_id');
 
     if (!$guest_id) return;
@@ -145,16 +160,10 @@ class Guest_IndexController extends Core_Controller_Action_Standard
 
   public function testAction()
   {
-    $table = Engine_Api::_()->getDbtable('blockedusers', 'guest');
-    $db = $table->getAdapter();
-    $db->beginTransaction();
-
-    $newRow = $table->createRow();
-    $newRow->setFromArray(array(
-      'user_id' => 1,
-      'blocked_user_id' => 10,
-    ));
-    $newRow->save();
-    $db->commit();
+    $level_id = $this->_getParam('level');
+    $action = 'display_widgets_enabled';
+    $viewer = Engine_Api::_()->user()->getViewer();
+    $result = Engine_Api::_()->getApi('core', 'guest')->isAllowed($viewer, 'display_widgets_enabled');
+    $this->view->row = Engine_Api::_()->getApi('core', 'guest')->isOn('record_admin_enabled');
   }
 }

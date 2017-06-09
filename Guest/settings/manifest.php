@@ -7,12 +7,17 @@
     'path' => 'application/modules/Guest',
     'title' => 'Guest',
     'description' => 'Guest',
-    'author' => '',
+    'author' => '<a href="http://www.hire-experts.com" title="Hire-Experts LLC" target="_blank">Hire-Experts LLC</a>',
     'dependencies' => array(
         array(
             'type' => 'module',
             'name' => 'core',
             'minVersion' => '4.2.0',
+        ),
+        array(
+            'type' => 'module',
+            'name' => 'hecore',
+            'miniVersion' => '4.2.2',
         ),
     ),
     'callback' => 
@@ -40,4 +45,7 @@
     'items' => array(
         'guest'
     ),
+  'routes' => array(
+
+  ),
 ); ?>

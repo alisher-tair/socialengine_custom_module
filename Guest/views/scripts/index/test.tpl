@@ -1,1 +1,1 @@
-<?php echo $this->result; ?>
+<?php echo var_dump($this->row) ?>
