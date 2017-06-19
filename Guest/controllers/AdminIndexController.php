@@ -19,6 +19,8 @@ class Guest_AdminIndexController extends Core_Controller_Action_Admin
         $settings->__set('guest.record.admin.enabled', (int) ((boolean) $form->getValue('record_admin')));
         $settings->__set('guest.enabled', (int) ((boolean) $form->getValue('guests_manage')));
         $settings->__set('guest.blocking.enabled', (int) ((boolean) $form->getValue('blocking')));
+        $settings->__set('guest.notification.interval', (int) $form->getValue('notification_interval'));
+        $settings->__set('guest.notification.settings', (int) $form->getValue('notification_settings'));
 
         $table = Engine_Api::_()->getDbtable('settings', 'guest');
 
@@ -30,6 +32,8 @@ class Guest_AdminIndexController extends Core_Controller_Action_Admin
             $row->guest_enabled = (int) ((boolean) $form->getValue('guests_manage'));
             $row->record_admin_enabled = (int) ((boolean) $form->getValue('record_admin'));
             $row->blocking = (int) ((boolean) $form->getValue('blocking'));
+            $row->notification_interval = (int) $form->getValue('notification_interval');
+            $row->notification_settings = (int) $form->getValue('notification_settings');
             $row->save();
             $db->commit();
         } catch (Exception $e) {

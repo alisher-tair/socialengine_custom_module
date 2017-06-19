@@ -32,7 +32,7 @@ class Guest_Widget_ProfileGuestsController extends Engine_Content_Widget_Abstrac
             $select = $table->select()
                 ->where('viewed_user_id = ?', $user->getIdentity())
                 ->order('visit_date DESC')
-                ->limit(5);
+                ->limit(10);
             $guests = $table->fetchAll($select);
 
             if (count($guests) <= 0) {

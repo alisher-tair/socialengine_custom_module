@@ -166,4 +166,97 @@ class Guest_IndexController extends Core_Controller_Action_Standard
     $result = Engine_Api::_()->getApi('core', 'guest')->isAllowed($viewer, 'display_widgets_enabled');
     $this->view->row = Engine_Api::_()->getApi('core', 'guest')->isOn('record_admin_enabled');
   }
+
+  public function guestsAction()
+  {
+    $table = Engine_Api::_()->getDbtable('guests', 'guest');
+
+    try {
+      $viewer = Engine_Api::_()->user()->getViewer();
+      $guest = $table->fetchRow(
+          $table->select()
+              ->where('viewed_user_id = ?', $viewer->getIdentity())
+              ->where('viewed = ?', false)
+              ->order('creation_date DESC')
+              ->limit(1)
+      );
+      $this->view->guest = $guest;
+    } catch (Exception $e) {
+      throw $e;
+    }
+  }
+
+  public function viewedAction()
+  {
+    $table = Engine_Api::_()->getDbtable('guests', 'guest');
+    $db = $table->getAdapter();
+    $db->beginTransaction();
+    $guest_id = $this->_getParam('guest_id');
+    $viewer = Engine_Api::_()->user()->getViewer();
+
+    try {
+      $row = $table->fetchRow(
+          $table->select()
+          ->where('guest_id = ?', $guest_id)
+          ->limit(1)
+      );
+
+      if ($row) {
+        if ($row->viewed_user_id == $viewer->getIdentity()) {
+          $row->viewed = true;
+          $row->save();
+        }
+      }
+
+      $db->commit();
+    } catch (Exception $e) {
+      $db->rollBack();
+      throw $e;
+    }
+    die;
+  }
+
+  public function addAction()
+  {
+    $guest_id = $this->_getParam('guest_id');
+    $table = Engine_Api::_()->getDbtable('guests', 'guest');
+    $viewer = Engine_Api::_()->user()->getViewer();
+
+    try {
+      $row = $table->fetchRow(
+          $table->select()
+          ->where('guest_id = ?', $guest_id)
+          ->limit(1)
+      );
+      if ($row) {
+        if ($row->viewed_user_id == $viewer->getIdentity()) {
+          $this->view->guest = $row;
+        }
+      }
+    } catch (Exception $e) {
+      throw $e;
+    }
+  }
+
+  public function intervalAction()
+  {
+    $table = Engine_Api::_()->getDbtable('settings', 'guest');
+
+    try {
+      $row = $table->fetchRow(
+          $table->select()
+          ->where('settings_id = ?', 1)
+          ->limit(1)
+      );
+
+      if ($row) {
+        echo $row->notification_interval;
+      } else {
+        echo '30';
+      }
+    } catch (Exception $e) {
+      throw $e;
+    }
+    die;
+  }
 }

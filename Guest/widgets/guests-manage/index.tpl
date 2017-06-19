@@ -47,5 +47,8 @@ $this->headScript()->appendFile($this->baseUrl() .'/application/modules/Guest/ex
     var user_id = '<?php echo $this->viewer()->getIdentity() ?>';
     Guest.init(user_id);
 
+    Guest.confirm_text = '<?php echo $this->translate('Are you sure?'); ?>';
+    Guest.loading_text = '<?php echo $this->translate('Loading'); ?>';
+    Guest.failed_text = '<?php echo $this->translate('Failed'); ?>';
 </script>
 

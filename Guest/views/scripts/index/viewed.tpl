@@ -1,0 +1,1 @@
+<?php echo $this->guest_id ?>

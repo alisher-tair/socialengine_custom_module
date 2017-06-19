@@ -39,6 +39,28 @@ class Guest_Form_Admin_Global extends Engine_Form
             'value' => $settings->getSetting('guest.blocking', 1)
         ));
 
+        $this->addElement('Integer', 'notification_interval', array(
+            'label' => 'Notification interval',
+            'description' => 'The interval between user notifications about a new guest (in seconds)',
+            'allowEmpty' => false,
+            'required' => true,
+            'filters' => array(
+                new Engine_Filter_Censor(),
+                'StripTags'
+            ),
+            'value' => $settings->getSetting('guest.notification.interval', 30)
+        ));
+
+        $this->addElement('Radio', 'notification_settings', array(
+            'label' => 'Notification settings',
+            'multiOptions' => array(
+                0 => 'Disable displaying of notifications',
+                1 => 'Enable displaying of notifications on the site',
+                2 => 'Enable displaying of notifications on the site and in the browser'
+            ),
+            'value' => $settings->getSetting('guest.notification.settings', 1)
+        ));
+
         $this->addElement('Button', 'submit', array(
             'label' => 'Save Settings',
             'type' => 'submit',

@@ -31,4 +31,11 @@ class Guest_Api_Core extends Core_Api_Abstract
         }
         return False;
     }
+
+    public function setInterval($func = null, $interval = 0, $times = 0)
+    {
+        if ($func == null) {
+            $func = Engine_Api::_()->getApi('core', 'guest')->newGuests();
+        }
+    }
 }
